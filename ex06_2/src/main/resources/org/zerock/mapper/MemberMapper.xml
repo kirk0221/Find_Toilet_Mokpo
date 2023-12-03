@@ -29,4 +29,13 @@ FROM
 WHERE mem.userid = #{userid} 
   </select>
 
+	<select id="insert">
+		insert into tbl_member(userid, userpw, userName) 
+		values (#{userid}, #{userpw}, #{userName})
+	</select>
+	<select id="insert_auth">
+		insert into tbl_member_auth(userid, auth)
+		values (#{userid}, 'ROLE_USER')
+	</select>
+
 </mapper>

@@ -1,11 +1,10 @@
-package org.zerock.mapper;
+package org.zerock.service;
 
 import org.zerock.domain.MemberVO;
 
-public interface MemberMapper {
+public interface MemberService {
 
 	public MemberVO read(String userid);
 	
 	public void insert(MemberVO me);
-	public void insert_auth(String userid);
 }

@@ -269,7 +269,8 @@
 		</sec:authorize>
 		
 		<sec:authorize access="isAnonymous()">
-		
+		<li><a href="/membership"><i class="fa fa-sign-out fa-fw"></i>
+		    Membership</a></li>
 		<li><a href="/customLogin"><i class="fa fa-sign-out fa-fw"></i>
 		    Login</a></li>
 		</sec:authorize>
