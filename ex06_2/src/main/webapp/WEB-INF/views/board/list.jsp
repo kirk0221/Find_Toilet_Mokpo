@@ -18,8 +18,10 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				Board List Page
-				<button id='regBtn' type="button" class="btn btn-xs pull-right">Register
-					New Board</button>
+				<button id='regBtn' type="button" class="btn btn-xs pull-right">Register New Board</button>
+				<button id='mapBtn' type="button" class="btn btn-xs pull-right">Go to Map</button>
+					
+				
 			</div>
 
 			<!-- /.panel-heading -->
@@ -208,6 +210,12 @@
 							self.location = "/board/register";
 
 						});
+						
+				        $("#mapBtn").on("click", function() {
+				        	
+				            self.location = "/board/map";
+				            
+				        });
 
 						var actionForm = $("#actionForm");
 

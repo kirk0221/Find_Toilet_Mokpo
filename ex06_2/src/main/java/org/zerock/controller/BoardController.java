@@ -50,6 +50,13 @@ public class BoardController {
 
 	}
 	
+	@GetMapping(value = "/map")
+	public String map() {
+		log.info("map");
+
+		return "/board/map";
+	}
+	
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")
 	public void register() {
@@ -78,7 +85,6 @@ public class BoardController {
 
 		return "redirect:/board/list";
 	}
-
 
 	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
