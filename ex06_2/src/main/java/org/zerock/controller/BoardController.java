@@ -76,13 +76,15 @@ public class BoardController {
 			board.getAttachList().forEach(attach -> log.info(attach));
 
 		}
-
+		if(board.getTitle()=="" && board.getContent() == "") {
+			rttr.addFlashAttribute("result", board.getBno());
+			return "redirect:/board/register";
+		}
 		log.info("==========================");
-
+		
 		service.register(board);
 
 		rttr.addFlashAttribute("result", board.getBno());
-
 		return "redirect:/board/list";
 	}
 
