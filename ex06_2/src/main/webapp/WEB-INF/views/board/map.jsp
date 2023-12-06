@@ -22,6 +22,7 @@
 
         // 마커 표시할 위치와 정보 배열
         var positions = [
+        	//{ title: '여기에 장소 이름', latlng: new kakao.maps.LatLng(위도,경도), content : '<div>html로 표시되는 글씨</div>' }
             { title: '목포시청', latlng: new kakao.maps.LatLng(34.82325805894606, 126.40218358099294) },
             { title: '목포역', latlng: new kakao.maps.LatLng(34.79115650080805, 126.3866567192007) },
             { title: '목포 버스터미널', latlng: new kakao.maps.LatLng(34.8127853844176, 126.41783346036843) },
@@ -63,7 +64,10 @@
         // 마커 이미지 주소
         var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
         
-        // 마커 생성과 표시
+        // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+		var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+        
         for (var i = 0; i < positions.length; i++) {
             var imageSize = new kakao.maps.Size(24, 35);
             var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -74,6 +78,17 @@
                 title: positions[i].title,
                 image: markerImage
             });
+
+            // 마커에 클릭 이벤트를 추가합니다
+            kakao.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    // 정보창을 생성하고 마커 위에 표시합니다
+                    var infowindow = new kakao.maps.InfoWindow({
+                        content: '<div style="padding:5px;font-size:12px;">' + positions[i].title + '</div>'
+                    });
+                    infowindow.open(map, marker);
+                };
+            })(marker, i));
         }
     </script>
 </body>
