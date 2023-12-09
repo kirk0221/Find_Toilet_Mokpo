@@ -57,6 +57,11 @@ public class BoardController {
 		return "/board/map";
 	}
 	
+	@GetMapping(value = "/info_board")
+	public void info_board() {
+		log.info("info_board");
+	}
+	
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")
 	public void register() {
