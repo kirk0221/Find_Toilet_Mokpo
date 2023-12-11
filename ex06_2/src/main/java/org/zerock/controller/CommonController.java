@@ -105,4 +105,53 @@ public class CommonController {
 		return "redirect:/customLogin";
 	}
 	
+	@GetMapping("/sequrityre")
+	public void sequrity_register() {
+		
+	}
+
+	@PostMapping("/sequrityre")
+	public String sequrity_register(String userid, String code, RedirectAttributes rttr) {
+		String sequrity_code = service.coderead();
+		
+		log.info("==========================");
+		log.info("userid: " + userid);
+		log.info("code: " + code);
+		log.info("sequrity_code:" + sequrity_code);
+		if (sequrity_code.equals(code) && service.read(userid) != null) {
+			rttr.addFlashAttribute("result", service.read(userid));
+			service.insertadmin(userid);
+			return "redirect:/sequrityre";
+
+		}
+		return "redirect:/sequrityre";
+	}
+	
+	@GetMapping("/sequrityup")
+	public void sequrity_update() {
+		
+	}
+
+	@PostMapping("/sequrityup")
+	public String sequrity_update(String userid, String code_sequrity, String code_update, RedirectAttributes rttr) {
+
+		String sequrity_code = service.coderead();
+		
+		log.info("==========================");
+		log.info("userid: " + userid);
+		log.info("기존 코드: " + code_sequrity);
+		log.info("바꿀 코드: " + code_update);
+		log.info("sequrity_code:" + sequrity_code);
+		if (sequrity_code.equals(code_sequrity) && service.readauth(userid).equals("ROLE_ADMIN")) {
+	
+			service.codeupdate(code_update);
+			rttr.addFlashAttribute("result", service.read(userid));
+			return "redirect:/sequrityup";
+
+		}
+
+		log.info("==========================");
+		return "redirect:/sequrityup";
+	}
+	
 }

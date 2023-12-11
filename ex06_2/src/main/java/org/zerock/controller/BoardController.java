@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.InfoVO;
 import org.zerock.domain.PageDTO;
 import org.zerock.service.BoardService;
 
@@ -50,12 +51,24 @@ public class BoardController {
 
 	}
 	
-	@GetMapping(value = "/map")
-	public String map() {
-		log.info("map");
-
-		return "/board/map";
+	@GetMapping("/map")
+	public String map(Model model) {
+	    List<InfoVO> infoList = service.getAllInfo(); // getAllInfo()는 모든 InfoVO 객체를 가져오는 서비스 메서드
+	    model.addAttribute("infoList", infoList);
+	    return "/board/map";
 	}
+
+	
+	@GetMapping(value = "/info_board")
+	public String info_board(@RequestParam("id") Long id, Model model) {
+		log.info("id" + id);
+	    InfoVO info = service.getInfoById(id); // service 계층을 통해 데이터베이스에서 정보를 조회
+	    model.addAttribute("info", info);
+	    return "/board/info_board";
+	}
+
+
+
 	
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")
@@ -76,13 +89,15 @@ public class BoardController {
 			board.getAttachList().forEach(attach -> log.info(attach));
 
 		}
-
+		if(board.getTitle()=="" && board.getContent() == "") {
+			rttr.addFlashAttribute("result", board.getBno());
+			return "redirect:/board/register";
+		}
 		log.info("==========================");
-
+		
 		service.register(board);
 
 		rttr.addFlashAttribute("result", board.getBno());
-
 		return "redirect:/board/list";
 	}
 

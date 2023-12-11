@@ -3,7 +3,6 @@ package org.zerock.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.zerock.domain.BoardVO;
 import org.zerock.domain.MemberVO;
 import org.zerock.mapper.MemberMapper;
 
@@ -27,7 +26,7 @@ public class MemberServicelmpl implements MemberService{
 			return;
 		}
 		mapper.insert(member);
-		mapper.insert_auth(member.getUserid());
+		mapper.insert_auth_user(member.getUserid());
 	}
 	
 	@Override
@@ -38,4 +37,37 @@ public class MemberServicelmpl implements MemberService{
 		return mapper.read(userid);
 
 	}
+	
+	@Override
+	public String readauth(String userid) {
+
+		log.info("get......" + userid);
+
+		return mapper.auth(userid);
+
+	}
+	
+	@Override
+	public String coderead() {
+
+		return mapper.code();
+
+	}
+	
+	@Override
+	public void insertadmin(String userid) {
+		log.info("get......" + userid);
+		
+		mapper.insert_auth_admin(userid);
+
+	}
+	
+	@Override
+	public void codeupdate(String codeupdate) {
+		log.info("get......" + codeupdate);
+		
+		mapper.codeupdate(codeupdate);
+
+	}
+	
 }

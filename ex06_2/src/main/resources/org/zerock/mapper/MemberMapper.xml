@@ -33,9 +33,26 @@ WHERE mem.userid = #{userid}
 		insert into tbl_member(userid, userpw, userName) 
 		values (#{userid}, #{userpw}, #{userName})
 	</select>
-	<select id="insert_auth">
+	
+	<select id="insert_auth_user">
 		insert into tbl_member_auth(userid, auth)
 		values (#{userid}, 'ROLE_USER')
 	</select>
-
+	<select id="insert_auth_admin">
+		insert into tbl_member_auth(userid, auth)
+		values (#{userid}, 'ROLE_ADMIN')
+	</select>
+	
+	<select id="code" resultType="String">
+		SELECT code FROM tbl_sequrity 
+    </select>
+    
+    <select id="auth" resultType="String">
+		SELECT auth FROM tbl_member_auth WHERE userid = #{userid} and auth = 'ROLE_ADMIN'
+    </select>
+    
+    <select id="codeupdate">
+    	UPDATE tbl_sequrity SET code =#{codeupdate}
+    </select>
+	
 </mapper>
