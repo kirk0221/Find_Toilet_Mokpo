@@ -123,5 +123,14 @@
   <update id="updateReplyCnt">
     update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
   </update>  
+  
+  	<select id="getInfoById" resultType="org.zerock.domain.InfoVO">
+		select * from info where id = #{id}
+	</select>
+	
+	<select id="getAllInfo" resultType="org.zerock.domain.InfoVO">
+	    select * from info
+	</select>
+
 
 </mapper>

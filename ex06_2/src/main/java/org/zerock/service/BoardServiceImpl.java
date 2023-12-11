@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.InfoVO;
 import org.zerock.mapper.BoardAttachMapper;
 import org.zerock.mapper.BoardMapper;
 
@@ -138,6 +139,18 @@ public class BoardServiceImpl implements BoardService {
 		log.info("remove all attach files");
 
 		attachMapper.deleteAll(bno);
+	}
+	
+	public List<InfoVO> getAllInfo(){
+		log.info("get info");
+		
+		return mapper.getAllInfo();
+	}
+	
+	public InfoVO getInfoById(Long id) {
+		log.info("get info by id :" + id);
+		
+		return mapper.getInfoById(id);
 	}
 
 }

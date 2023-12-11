@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.InfoVO;
 
 public interface BoardMapper {
 
@@ -28,6 +29,10 @@ public interface BoardMapper {
 	public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
 	
 	public List<BoardAttachVO> findByBno(Long bno);
+
+	public InfoVO getInfoById(Long id);
+
+	public List<InfoVO> getAllInfo();
 
 }
  
