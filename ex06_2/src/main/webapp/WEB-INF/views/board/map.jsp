@@ -44,7 +44,7 @@
         }
 
         #info-container table {
-            width: calc(100% + 40px);
+            width: calc(100% + 20px);
             margin-left: -20px;
             border-collapse: collapse;
             border-spacing: 0;
