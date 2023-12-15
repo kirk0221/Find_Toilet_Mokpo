@@ -2,6 +2,10 @@
 <%@ page import="org.zerock.domain.InfoVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%
+    List<InfoVO> infoList = (List<InfoVO>) request.getAttribute("infoList");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,24 +18,75 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
             height: 100vh;
         }
 
-        #map {
-            width: 100%;
+        #container {
+            display: flex;
             height: 100%;
+        }
+
+        #map {
+            width: 50%;
+            height: 100%;
+            position: relative;
+        }
+
+        #info-container {
+            width: 50%;
+            background-color: #f2f2f2;
+            overflow-y: auto; /* 표가 너무 길 경우 스크롤 표시 */
+            padding: 20px;
+        }
+
+        #info-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #info-container th, #info-container td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        #info-container th {
+            background-color: #f2f2f2;
         }
     </style>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0f56f2f450ad40dc6a620c5c8b79b642"></script>
 </head>
 <body>
-    <div id="map"></div>
+    <div id="container">
+        <div id="map"></div>
+        <div id="info-container">
+            <h2>Information</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                    for(InfoVO info : infoList) {
+                    %>
+                        <tr>
+                            <td><%=info.getTitle()%></td>
+                            <td><%=info.getAddress()%></td>
+                        </tr>
+                    <%
+                    }
+                    %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <script>
         var infoList = [
             <%
-            List<InfoVO> infoList = (List<InfoVO>) request.getAttribute("infoList");
             for(InfoVO info : infoList) {
             %>
                 {
