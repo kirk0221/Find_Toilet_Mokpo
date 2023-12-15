@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -57,7 +59,36 @@
 
         <%-- id와 title 값을 받아옵니다 --%>
         <% String id = request.getParameter("id"); %>
-
+        <sec:authentication property="principal" var="pinfo"/>
+        <sec:authorize access="isAuthenticated()">
+       	<c:if test="${not empty favorite}">
+        	<form action="/board/info_board_out" method="post">
+        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
+          		<div class="form-group">
+            		<label></label> <input class="form-control" name='infoid' value=${info.id}>
+          		</div>
+		        <div class="form-group">
+        		    <label></label> <input class="form-control" name='userid' 
+                value='<sec:authentication property="principal.username"/>' readonly="readonly">
+          		</div> 	 	       
+         		<button type="submit" class="btn btn-default">즐겨찾기 삭제</button>
+   		 	</form>
+        </c:if>
+        <c:if test="${empty favorite}">
+        	<form action="/board/info_board_in" method="post">
+        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
+          		<div class="form-group">
+            		<label></label> <input class="form-control" name='infoid' value=${info.id}>
+          		</div>
+		        <div class="form-group">
+        		    <label></label> <input class="form-control" name='userid' 
+                value='<sec:authentication property="principal.username"/>' readonly="readonly">
+          		</div> 	 	       
+         		<button type="submit" class="btn btn-default">즐겨찾기 등록</button>
+   		 	</form>
+        </c:if>
+        </sec:authorize>
+		
         <p>Title: ${info.title}</p>
         <p>Address: ${info.address}</p>
     </div>
@@ -68,5 +99,7 @@
     <form action="<%= request.getContextPath() %>/board/map" method="get">
         <button type="submit">지도로 돌아가기</button>
     </form>
+    
+
 </body>
 </html>

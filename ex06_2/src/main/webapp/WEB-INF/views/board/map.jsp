@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="org.zerock.domain.InfoVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@
 </head>
 <body>
     <div id="map"></div>
-
+	<sec:authentication property="principal" var="pinfo"/>
     <script>
         var infoList = [
             <%

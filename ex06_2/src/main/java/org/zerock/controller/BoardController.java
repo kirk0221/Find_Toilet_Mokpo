@@ -21,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.Favorite;
 import org.zerock.domain.InfoVO;
+import org.zerock.domain.MemberVO;
 import org.zerock.domain.PageDTO;
 import org.zerock.service.BoardService;
 
@@ -63,12 +65,34 @@ public class BoardController {
 	public String info_board(@RequestParam("id") Long id, Model model) {
 		log.info("id" + id);
 	    InfoVO info = service.getInfoById(id); // service 계층을 통해 데이터베이스에서 정보를 조회
-	    model.addAttribute("info", info);
-	    return "/board/info_board";
+ 	    model.addAttribute("info", info);
+ 	    return "/board/info_board";
 	}
-
-
-
+	
+	@PostMapping(value = "/info_board_in")
+	public String boardfavoritein(@RequestParam("infoid") Long infoid, @RequestParam("userid") String userid, Model model) {
+		log.info("id" + infoid);
+	    model.addAttribute("id", infoid);
+	    model.addAttribute("userid", userid);
+	    log.info("=============================================info:"+infoid);
+	    log.info("=============================================member:"+userid);
+	    service.favorite_in(infoid, userid);
+	    
+	    return "redirect:/board/map";
+	}
+	
+	
+	@PostMapping(value = "/info_board_out")
+	public String boardfavoriteout(@RequestParam("infoid") Long infoid, @RequestParam("userid") String userid, Model model) {
+		log.info("id" + infoid);
+	    model.addAttribute("id", infoid);
+	    model.addAttribute("userid", userid);
+	    log.info("=============================================info:"+infoid);
+	    log.info("=============================================member:"+userid);
+	    service.favorite_out(infoid, userid);
+	    
+	    return "redirect:/board/map";
+	}
 	
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")

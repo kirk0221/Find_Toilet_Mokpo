@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.Favorite;
 import org.zerock.domain.InfoVO;
+import org.zerock.domain.MemberVO;
 
 public interface BoardMapper {
 
@@ -33,6 +35,13 @@ public interface BoardMapper {
 	public InfoVO getInfoById(Long id);
 
 	public List<InfoVO> getAllInfo();
+	
+	public MemberVO getMemberById(String userid);
+	
+	public void favorite_in(@Param("infoid") Long infoid, @Param("userid") String userid);
+	public void favorite_out(@Param("infoid") Long infoid, @Param("userid") String userid);
+	
+	public Favorite getfavoriteByIdUserid(Long info_id, String userid);
 
 }
  

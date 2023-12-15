@@ -51,8 +51,8 @@ WHERE mem.userid = #{userid}
 		SELECT auth FROM tbl_member_auth WHERE userid = #{userid} and auth = 'ROLE_ADMIN'
     </select>
     
-    <select id="codeupdate">
+    <update id="codeupdate">
     	UPDATE tbl_sequrity SET code =#{codeupdate}
-    </select>
+    </update>
 	
 </mapper>

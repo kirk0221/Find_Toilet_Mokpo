@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.Favorite;
 import org.zerock.domain.InfoVO;
+import org.zerock.domain.MemberVO;
 import org.zerock.mapper.BoardAttachMapper;
 import org.zerock.mapper.BoardMapper;
 
@@ -152,5 +154,32 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.getInfoById(id);
 	}
+	
+	public MemberVO getMemberById(String userid) {
+		log.info("get userid by user :" + userid);
+		
+		return mapper.getMemberById(userid);
+	}
+	
+	@Transactional
+	@Override
+	public void favorite_in(Long infoid, String userid) {
 
+		log.info("favoritein......" + infoid + userid);
+		mapper.favorite_in(infoid, userid);
+	}
+	
+	@Transactional
+	@Override
+	public void favorite_out(Long infoid, String userid) {
+
+		log.info("favoritein......" + infoid + userid);
+		mapper.favorite_out(infoid, userid);
+	}
+	
+	public Favorite getFavoriteByIdUserid(Long infoid, String userid) {
+		log.info("get info by id :" + infoid);
+		
+		return mapper.getfavoriteByIdUserid(infoid, userid);
+	}
 }
