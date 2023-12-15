@@ -7,10 +7,26 @@
 <head>
     <meta charset="utf-8">
     <title>화장실 지도</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0f56f2f450ad40dc6a620c5c8b79b642"></script>
 </head>
 <body>
-    <div id="map" style="width:100%;height:450px;"></div>
+    <div id="map"></div>
 
     <script>
         var infoList = [
@@ -63,7 +79,7 @@
         }
 
         function addCurrentLocationMarker(map, locPosition) {
-            var imageSize = new kakao.maps.Size(24, 35);
+            var imageSize = new kakao.maps.Size(36, 36);
             var markerImage = new kakao.maps.MarkerImage(
                 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
                 imageSize
@@ -85,7 +101,7 @@
             var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png";
 
             for (var i = 0; i < markers.length; i++) {
-                var imageSize = new kakao.maps.Size(24, 35);
+                var imageSize = new kakao.maps.Size(36, 36);
                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
                 var marker = new kakao.maps.Marker({
