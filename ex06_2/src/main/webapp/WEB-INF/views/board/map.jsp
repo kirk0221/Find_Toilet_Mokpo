@@ -78,6 +78,7 @@
             %>
                 {
                     title: '<%=info.getTitle()%>',
+                    address: '<%=info.getAddress()%>',
                     latlng: new kakao.maps.LatLng(<%=info.getLat()%>, <%=info.getLng()%>),
                     id: <%=info.getId()%>
                 },
@@ -98,19 +99,36 @@
                 // 현재 위치에 마커 추가
                 addCurrentLocationMarker(map, locPosition);
 
+                // 거리순으로 정렬
+                infoList.sort(function(a, b) {
+                    var distanceA = calculateDistance(locPosition, a.latlng);
+                    var distanceB = calculateDistance(locPosition, b.latlng);
+                    return distanceA - distanceB;
+                });
+
                 // 나머지 마커들 추가
                 addMarkers(map, infoList);
 
-                // 현재 위치와 각 위치의 거리 계산 및 업데이트
-                updateDistances(locPosition);
+                // 거리순으로 정렬된 표 업데이트
+                updateDistances(locPosition, infoList);
             });
         } else {
             var locPosition = new kakao.maps.LatLng(34.8118309291849, 126.39223316548866);
             // 위치 정보가 사용 불가능한 경우에도 지도 초기화
             var map = initializeMap(locPosition);
             
+            // 거리순으로 정렬
+            infoList.sort(function(a, b) {
+                var distanceA = calculateDistance(locPosition, a.latlng);
+                var distanceB = calculateDistance(locPosition, b.latlng);
+                return distanceA - distanceB;
+            });
+
             // 나머지 마커들 추가
             addMarkers(map, infoList);
+
+            // 거리순으로 정렬된 표 업데이트
+            updateDistances(locPosition, infoList);
         }
 
         function initializeMap(locPosition) {
@@ -173,54 +191,56 @@
                     Math.cos(deg2rad(locPosition.getLat())) * Math.cos(deg2rad(targetPosition.getLat())) *
                     Math.sin(dLon / 2) * Math.sin(dLon / 2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            var distance = R * c;
-
-            return distance * 1000; // 단위를 미터로 변환
+            var distance = R * c; // 단위를 킬로미터로 변환
+            
+            return distance;
         }
 
         function deg2rad(deg) {
             return deg * (Math.PI / 180);
         }
 
-        function updateDistances(locPosition) {
-            var tableRows = document.querySelectorAll("#info-container tbody tr");
+        function updateDistances(locPosition, markers) {
+            var infoContainer = document.getElementById('info-container');
+            var table = document.createElement('table');
+            var thead = document.createElement('thead');
+            var tbody = document.createElement('tbody');
+            
+            // 테이블 헤더 추가
+            var headerRow = document.createElement('tr');
+            headerRow.innerHTML = '<th>Title</th><th>Address</th><th>Distance</th>';
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
 
-            for (var i = 0; i < infoList.length; i++) {
-                var targetPosition = infoList[i].latlng;
-                var distance = calculateDistance(locPosition, targetPosition);
-                var distanceCell = tableRows[i].querySelector("td:last-child");
-                distanceCell.textContent = distance.toFixed(2) + "m";
+            // 테이블 바디 추가
+            for (var i = 0; i < markers.length; i++) {
+                var distance = calculateDistance(locPosition, markers[i].latlng);
+
+                var dataRow = document.createElement('tr');
+                dataRow.innerHTML = '<td>' + markers[i].title + '</td><td>' + markers[i].address + '</td><td>' + formatDistance(distance) + '</td>';
+                tbody.appendChild(dataRow);
+            }
+
+            table.appendChild(tbody);
+            infoContainer.innerHTML = ''; // 기존 내용 초기화
+            infoContainer.appendChild(table);
+        }
+
+        function formatDistance(distance) {
+            // 1km 이내인 경우 미터로 변환
+            if (distance < 1) {
+                return (distance * 1000).toFixed(2) + 'm';
+            } else {
+                return distance.toFixed(2) + 'km';
             }
         }
+
+
     </script>
     
     <div id="container">
         <div id="map"></div>
-        <div id="info-container">
-            <h2>Information</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>address</th>
-                        <th>Distance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%
-                    for(InfoVO info : infoList) {
-                    %>
-                        <tr>
-                            <td><%=info.getTitle()%></td>
-                            <td><%=info.getAddress()%></td>
-                            <td></td> <!-- Empty cell for distance, to be filled dynamically -->
-                        </tr>
-                    <%
-                    }
-                    %>
-                </tbody>
-            </table>
-        </div>
+        <div id="info-container"></div>
     </div>
 </body>
 </html>
