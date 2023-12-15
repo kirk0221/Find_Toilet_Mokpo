@@ -113,11 +113,8 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0f56f2f450ad40dc6a620c5c8b79b642"></script>
 </head>
 <body>
-<<<<<<< HEAD
-    <div id="map"></div>
-	<sec:authentication property="principal" var="pinfo"/>
-=======
->>>>>>> branch 'main' of https://github.com/kirk0221/Team_B.git
+	
+	<sec:authentication property="principal" var="pinfo" />
     <script>
         var locPosition;
 
@@ -196,7 +193,9 @@
 
         function addMarkers(map, markers) {
             var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png";
-
+            
+            // JavaScript 변수에 사용자 아이디 할당
+            var username = "${pinfo.username}";
             for (var i = 0; i < markers.length; i++) {
                 var imageSize = new kakao.maps.Size(36, 36);
                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -210,7 +209,7 @@
 
                 kakao.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
-                        window.location.href = '${pageContext.request.contextPath}/board/info_board?id=' + encodeURIComponent(markers[i].id);
+                        window.location.href = '${pageContext.request.contextPath}/board/info_board?id=' + encodeURIComponent(markers[i].id)+'&userid='+username;
                     };
                 })(marker, i));
             }

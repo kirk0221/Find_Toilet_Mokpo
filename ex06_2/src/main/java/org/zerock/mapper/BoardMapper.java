@@ -41,7 +41,7 @@ public interface BoardMapper {
 	public void favorite_in(@Param("infoid") Long infoid, @Param("userid") String userid);
 	public void favorite_out(@Param("infoid") Long infoid, @Param("userid") String userid);
 	
-	public Favorite getfavoriteByIdUserid(Long info_id, String userid);
+	public Favorite getfavoriteByIdUserid(@Param("infoid") Long info_id, @Param("userid") String userid);
 
 }
  

@@ -60,10 +60,30 @@ public class BoardController {
 	    return "/board/map";
 	}
 
-	
+
 	@GetMapping(value = "/info_board")
-	public String info_board(@RequestParam("id") Long id, Model model) {
-		log.info("id" + id);
+	public String info_board(@RequestParam("id") Long id, String userid, Model model) {
+		boolean result = false;
+		Favorite favorite = service.getFavoriteByIdUserid(id, userid);
+		if(favorite == null) {
+			model.addAttribute("result", result);
+			log.info("id----------------------------" + id);
+			log.info("userid-----------------------------"+userid);
+		    InfoVO info = service.getInfoById(id); // service 계층을 통해 데이터베이스에서 정보를 조회
+	 	    model.addAttribute("info", info);
+	 	    return "/board/info_board";
+		}
+		log.info("========================================================="+favorite);
+		
+		log.info("result"+(favorite.getInfoid().equals(id) && favorite.getUserid().equals(userid)));
+		if(favorite.getInfoid().equals(id) && favorite.getUserid().equals(userid)) {
+			result = true;
+			model.addAttribute("result", result);
+			log.info(result);
+		}
+		model.addAttribute("result", result);
+		log.info("id----------------------------" + id);
+		log.info("userid-----------------------------"+userid);
 	    InfoVO info = service.getInfoById(id); // service 계층을 통해 데이터베이스에서 정보를 조회
  	    model.addAttribute("info", info);
  	    return "/board/info_board";

@@ -61,31 +61,29 @@
         <% String id = request.getParameter("id"); %>
         <sec:authentication property="principal" var="pinfo"/>
         <sec:authorize access="isAuthenticated()">
-       	<c:if test="${not empty favorite}">
+       	<c:if test="${result}">
         	<form action="/board/info_board_out" method="post">
-        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
-          		<div class="form-group">
-            		<label></label> <input class="form-control" name='infoid' value=${info.id}>
-          		</div>
-		        <div class="form-group">
-        		    <label></label> <input class="form-control" name='userid' 
-                value='<sec:authentication property="principal.username"/>' readonly="readonly">
-          		</div> 	 	       
-         		<button type="submit" class="btn btn-default">즐겨찾기 삭제</button>
-   		 	</form>
+    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
+    			<div class="form-group">
+        			<label></label> <input class="form-control" type="hidden" name='infoid' value="${info.id}">
+    			</div>
+    			<div class="form-group">
+        			<label></label> <input class="form-control" type="hidden" name='userid' value='<sec:authentication property="principal.username"/>' readonly="readonly">
+    			</div> 	 	       
+    			<button type="submit" class="btn btn-default">즐겨찾기 삭제</button>
+			</form>
         </c:if>
-        <c:if test="${empty favorite}">
+        <c:if test="${not result}">
         	<form action="/board/info_board_in" method="post">
-        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
-          		<div class="form-group">
-            		<label></label> <input class="form-control" name='infoid' value=${info.id}>
-          		</div>
-		        <div class="form-group">
-        		    <label></label> <input class="form-control" name='userid' 
-                value='<sec:authentication property="principal.username"/>' readonly="readonly">
-          		</div> 	 	       
-         		<button type="submit" class="btn btn-default">즐겨찾기 등록</button>
-   		 	</form>
+    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
+    			<div class="form-group">
+        			<label></label> <input class="form-control" type="hidden" name='infoid' value="${info.id}">
+    			</div>
+    			<div class="form-group">
+        			<label></label> <input class="form-control" type="hidden" name='userid' value='<sec:authentication property="principal.username"/>' readonly="readonly">
+    			</div> 	 	       
+    			<button type="submit" class="btn btn-default">즐겨찾기 등록</button>
+			</form>
         </c:if>
         </sec:authorize>
 		
@@ -99,7 +97,5 @@
     <form action="<%= request.getContextPath() %>/board/map" method="get">
         <button type="submit">지도로 돌아가기</button>
     </form>
-    
-
 </body>
 </html>
