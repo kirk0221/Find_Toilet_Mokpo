@@ -18,7 +18,6 @@
 
     <%-- id와 title 값을 받아옵니다 --%>
     <% String id = request.getParameter("id"); %>
-    <% String title = request.getParameter("title"); %>
 
 	<p>Title: ${info.title}</p>
 	<p>Address: ${info.address}</p>
