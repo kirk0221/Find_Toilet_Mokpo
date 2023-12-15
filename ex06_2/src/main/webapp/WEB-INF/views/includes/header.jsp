@@ -263,7 +263,10 @@
     
     <li class="divider"></li>
 		<sec:authorize access="isAuthenticated()">
-		 
+		<li><a href="/sequrityre"><i class="fa fa-sign-out fa-fw"></i>
+		    Sequrityre</a></li>
+		<li><a href="/sequrityup"><i class="fa fa-sign-out fa-fw"></i>
+		    Sequrityupt</a></li>
 		<li><a href="/customLogout"><i class="fa fa-sign-out fa-fw"></i>
 		    Logout</a></li>
 		</sec:authorize>
