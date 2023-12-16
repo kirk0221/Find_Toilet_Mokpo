@@ -353,9 +353,8 @@
         }
         
         // '등록' 버튼 클릭 시 동작하는 함수
-        function register() {
-            alert('등록 버튼이 클릭되었습니다.');
-            // 여기에 실제 동작을 추가하세요.
+        function mapcontrol() {
+        	window.location.href = '${pageContext.request.contextPath}/board/mapdb	';
         }
 
     </script>
@@ -371,7 +370,7 @@
         <!-- 등록 버튼이 있는 admin-container 추가 -->
         <sec:authorize access="hasRole('ROLE_ADMIN')">
 	        <div id="admin-container">
-	            <button onclick="register()">등록</button>
+	            <button onclick="mapcontrol()">화장실 정보 수정</button>
 	        </div>
 	    </sec:authorize>
         <div id="map"></div>

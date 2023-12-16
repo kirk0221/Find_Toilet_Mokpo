@@ -69,6 +69,20 @@ public class BoardController {
 
 	    return "/board/map";
 	}
+	
+	@GetMapping("/mapdb")
+	public String mapdb(Model model, Authentication authentication) {
+	    List<InfoVO> infoList = service.getAllInfo();
+	    model.addAttribute("infoList", infoList);
+
+	    if (authentication != null) {
+	        // 현재 사용자의 인증 정보에서 권한을 가져와서 모델에 추가
+	        String auth = userservice.readauth(authentication.getName());
+	        model.addAttribute("auth", auth);
+	    }
+
+	    return "/board/mapdb";
+	}
 
 
 	@GetMapping(value = "/info_board")
