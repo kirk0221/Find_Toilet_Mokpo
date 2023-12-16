@@ -219,4 +219,9 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.getfavoriteByIdUserid(infoid, userid);
 	}
+	
+	public void addInfo(InfoVO info) {
+		log.info(info);
+		mapper.addInfo(info);
+	}
 }

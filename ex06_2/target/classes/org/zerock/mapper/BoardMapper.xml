@@ -161,4 +161,10 @@
 	<delete id="favorite_out">
 		delete tbl_favorite where infoid = #{infoid} and userid = #{userid}
 	</delete>
+	
+	<insert id="addInfo">
+		insert("INSERT INTO your_info_table (title, lat, lng, address, update_date, infoscore) " +
+            "VALUES (#{title}, #{lat}, #{lng}, #{address}, #{updateDate}, #{infoscore})")
+	</insert>
+		
 </mapper>

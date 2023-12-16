@@ -15,6 +15,8 @@ public interface BoardMapper {
 	public List<BoardVO> getList();
 
 	public List<BoardVO> getListWithPaging(Criteria cri);
+	
+	public void addInfo(InfoVO info);
 
 	public void insert(BoardVO board);
 

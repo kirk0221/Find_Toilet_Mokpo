@@ -3,6 +3,7 @@ package org.zerock.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -83,6 +85,20 @@ public class BoardController {
 
 	    return "/board/mapdb";
 	}
+	
+    @PostMapping("/addInfo")
+    @ResponseBody
+    public String addInfo(@RequestBody InfoVO info) {
+        log.info("Add Info: " + info);
+
+        // 현재 시간 설정
+        info.setUpdateDate(new Date());
+        // infoscore는 이미 null로 설정되어 있음
+
+        service.addInfo(info);
+
+        return "success";
+    }
 
 
 	@GetMapping(value = "/info_board")

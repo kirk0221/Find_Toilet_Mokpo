@@ -44,4 +44,6 @@ public interface BoardService {
 	public void favorite_out(Long infoid, String userid);
 	
 	public Favorite getFavoriteByIdUserid(Long infoid, String userid);
+
+	public void addInfo(InfoVO info);
 }
