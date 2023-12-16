@@ -50,7 +50,7 @@
         </div>
         <div class="form-group">
           <label>화장실 정보</label> <input class="form-control" name='infotitle'
-            value='<c:out value="${info.title}"/>' readonly="readonly">
+            value='<c:out value="${selectinfo.title}"/>' readonly="readonly">
         </div>
 
 <%-- 		<button data-oper='modify' class="btn btn-default">

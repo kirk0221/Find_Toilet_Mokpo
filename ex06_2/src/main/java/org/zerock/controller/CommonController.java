@@ -71,9 +71,10 @@ public class CommonController {
 	}
 
 	@PostMapping("/customLogout")
-	public void logoutPost() {
+	public String logoutPost() {
 
 		log.info("post custom logout");
+		return "redirect:/board/list";
 		
 	}
 

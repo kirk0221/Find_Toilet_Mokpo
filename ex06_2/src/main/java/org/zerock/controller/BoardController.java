@@ -116,8 +116,9 @@ public class BoardController {
 	
 	@GetMapping("/register")
 	@PreAuthorize("isAuthenticated()")
-	public void register() {
-
+	public void register(Model model) {
+		List<InfoVO> infolist = service.getAllInfo();
+		model.addAttribute("infoList", infolist);
 	}
 
 	@PostMapping("/register")
@@ -152,8 +153,9 @@ public class BoardController {
 
 		log.info("/get or modify");
 		model.addAttribute("board", service.get(bno));
-		model.addAttribute("info", service.getInfoById(service.get(bno).getInfoid()));
-		
+		model.addAttribute("selectinfo", service.getInfoById(service.get(bno).getInfoid()));
+		List<InfoVO> infolist = service.getAllInfo();
+		model.addAttribute("infoList", infolist);
 	}
 	
 	@PreAuthorize("principal.username == #board.writer")
