@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>        
 <%@ page session="false" %>
 <html>
 <head>
@@ -19,6 +20,7 @@
             font-size: 36px;
             margin-bottom: 20px;
             text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
         .image-container {
@@ -31,6 +33,11 @@
             height: auto; /* 자동으로 높이 조절 */
         }
 
+        .new-button {
+            position: absolute;
+            top: 0; /* 맨 위에 위치 */
+            right: 0; /* 화면 오른쪽 끝에 위치 */
+        }
 
         .button-container {
             display: flex;
@@ -76,6 +83,15 @@
     <h1>인권지킴이(공중화장실 찾기)</h1>
     <div class="image-container">
         <img src="${pageContext.request.contextPath}/resources/img/jogging.png" alt="Your Image Alt Text">
+    </div>
+    <div class="new-button">
+    	<sec:authorize access="isAnonymous()">
+    		<a href="/customLogin"> <button>로그인</button></a>
+    	</sec:authorize>
+    	<sec:authorize access="isAuthenticated()">
+    		<a href="/customLogout"> <button>로그아웃</button></a>
+    	</sec:authorize>
+       
     </div>
     <div class="button-container">
         <div class="button-wrapper"><a href="/board/map"><button>인권 찾기 시작</button></a></div>

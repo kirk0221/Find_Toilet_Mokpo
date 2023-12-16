@@ -49,7 +49,7 @@ public class CommonController {
 
 	}
 	@PostMapping("/customLogin")
-	public void login(String error, String logout, Model model) {
+	public String login(String error, String logout, Model model) {
 
 		log.info("error: " + error);
 		log.info("logout: " + logout);
@@ -61,7 +61,8 @@ public class CommonController {
 		if (logout != null) {
 			model.addAttribute("logout", "Logout!!");
 		}
-
+		
+		return "redirect:/board/list";
 	}
 	@GetMapping("/customLogout")
 	public void logoutGET() {
@@ -74,7 +75,7 @@ public class CommonController {
 	public String logoutPost() {
 
 		log.info("post custom logout");
-		return "redirect:/board/list";
+		return "/board/list";
 		
 	}
 
