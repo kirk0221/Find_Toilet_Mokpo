@@ -134,3 +134,8 @@ CREATE TABLE tbl_sequrity (
 );
 
 INSERT INTO TBL_SEQURITY info (code) VALUES ('00000000');
+
+CREATE TABLE tbl_favorite (
+    infoid NUMBER,
+    userid VARCHAR2(50)
+);
