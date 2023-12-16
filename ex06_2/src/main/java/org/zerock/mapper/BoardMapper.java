@@ -3,6 +3,7 @@ package org.zerock.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
@@ -13,10 +14,11 @@ import org.zerock.domain.MemberVO;
 public interface BoardMapper {
 
 	public List<BoardVO> getList();
+	public List<BoardVO> getBoardById(@Param("id") Long id);
 
 	public List<BoardVO> getListWithPaging(Criteria cri);
 	
-	public void addInfo(InfoVO info);
+	public void addInfo(@Param("id") Long id, @Param("title") String title, @Param("lat") Double lat, @Param("lng") Double lng, @Param("address") String address);
 
 	public void insert(BoardVO board);
 
@@ -25,8 +27,10 @@ public interface BoardMapper {
 	public BoardVO read(Long bno);
 
 	public int delete(Long bno);
+	public int infodelete(Long id);
 
 	public int update(BoardVO board);
+	public int infoupdate(InfoVO info);
 
 	public int getTotalCount(Criteria cri);
 	public int getTotalCountByInfoid(@Param("infoid") Long infoid);

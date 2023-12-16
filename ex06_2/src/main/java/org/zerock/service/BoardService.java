@@ -2,6 +2,7 @@ package org.zerock.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
@@ -22,7 +23,7 @@ public interface BoardService {
 	// public List<BoardVO> getList();
 
 	public List<BoardVO> getList(Criteria cri);
-
+	public List<BoardVO> getListByInfoid(Long infoid);
 	//추가
 	public int getTotal(Criteria cri);
 	
@@ -45,5 +46,7 @@ public interface BoardService {
 	
 	public Favorite getFavoriteByIdUserid(Long infoid, String userid);
 
-	public void addInfo(InfoVO info);
+	public void addInfo(String title, Double lat, Double lng, String address);
+	public void deleteInfo(Long id);
+	public void modifyInfo(InfoVO info);
 }

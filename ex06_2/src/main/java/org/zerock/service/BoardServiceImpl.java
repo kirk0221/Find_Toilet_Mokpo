@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.zerock.domain.BoardAttachVO;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
@@ -137,6 +138,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public List<BoardVO> getListByInfoid(Long infoid) {
+
+		log.info("get List with infoid: " + infoid);
+
+		return mapper.getBoardById(infoid);
+	}
+	
+	@Override
 	public int getTotal(Criteria cri) {
 
 		log.info("get total count");
@@ -220,8 +229,22 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getfavoriteByIdUserid(infoid, userid);
 	}
 	
-	public void addInfo(InfoVO info) {
-		log.info(info);
-		mapper.addInfo(info);
+	public void addInfo(String title, Double lat, Double lng, String address) {
+		log.info(title+lat+lng+address);
+		Long id = (long) ((mapper.getAllInfo().size()) + 1);
+		mapper.addInfo(id, title, lat, lng, address);
 	}
+	
+	public void deleteInfo(Long id) {
+		log.info("delete id");
+		mapper.infodelete(id);
+	}
+	
+	public void modifyInfo(InfoVO info) {
+
+		log.info("modify......" + info);
+
+		mapper.infoupdate(info);
+	}
+	
 }

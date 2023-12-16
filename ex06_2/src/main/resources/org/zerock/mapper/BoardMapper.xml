@@ -139,6 +139,10 @@
 		select * from info where id = #{id}
 	</select>
 	
+	<select id="getBoardById" resultType="org.zerock.domain.BoardVO">
+		select * from tbl_board where infoid = #{id}
+	</select>
+	
 	<select id="getInfoByTitle" resultType="org.zerock.domain.InfoVO">
 		select id from info where title = #{title}
 	</select>
@@ -163,8 +167,22 @@
 	</delete>
 	
 	<insert id="addInfo">
-		insert("INSERT INTO your_info_table (title, lat, lng, address, update_date, infoscore) " +
-            "VALUES (#{title}, #{lat}, #{lng}, #{address}, #{updateDate}, #{infoscore})")
+		INSERT INTO info (id, title, lat, lng, address) VALUES (#{id}, #{title}, #{lat}, #{lng}, #{address})
 	</insert>
 		
+	<delete id="infodelete">
+		delete info where id = #{id}
+	</delete>
+	
+	<update id="infoupdate">
+		update info
+		set title= #{title},
+		lat=#{lat},
+		lng = #{lng},
+		address = #{address},
+		updatedate = sysdate,
+		infoscore = #{infoscore}
+		where id = #{id}
+	</update>
+	
 </mapper>

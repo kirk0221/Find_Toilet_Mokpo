@@ -55,49 +55,47 @@
 </head>
 <body>
     <div class="info-container">
-        <h2>Information Board</h2>
+        <h2>Modify Info</h2>
 
         <%-- id와 title 값을 받아옵니다 --%>
         <% String id = request.getParameter("id"); %>
-        <sec:authentication property="principal" var="pinfo"/>
-        <sec:authorize access="isAuthenticated()">
-       	<c:if test="${result}">
-        	<form action="/board/info_board_out" method="post">
-    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
-    			<div class="form-group">
-        			<label></label> <input class="form-control" type="hidden" name='infoid' value="${info.id}">
-    			</div>
-    			<div class="form-group">
-        			<label></label> <input class="form-control" type="hidden" name='userid' value='<sec:authentication property="principal.username"/>' readonly="readonly">
-    			</div> 	 	       
-    			<button type="submit" class="btn btn-default">즐겨찾기 삭제</button>
-			</form>
-        </c:if>
-        <c:if test="${not result}">
-        	<form action="/board/info_board_in" method="post">
-    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
-    			<div class="form-group">
-        			<label></label> <input class="form-control" type="hidden" name='infoid' value="${info.id}">
-    			</div>
-    			<div class="form-group">
-        			<label></label> <input class="form-control" type="hidden" name='userid' value='<sec:authentication property="principal.username"/>' readonly="readonly">
-    			</div> 	 	       
-    			<button type="submit" class="btn btn-default">즐겨찾기 등록</button>
-			</form>
-        </c:if>
-        </sec:authorize>
-		
-        <p>Title: ${info.title}</p>
-        <p>Score: ${info.infoscore}</p>
-        <p>Address: ${info.address}</p>
+       	<form action="/board/infomore_modify" method="post">
+   			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>      
+   			<div class="form-group">
+  				<label>id</label>
+  				<textarea class="form-control" name='id' readonly><c:out value="${info.id}" /></textarea>
+			</div>    
+			<div class="form-group">
+  				<label>title</label>
+  				<textarea class="form-control" name='title' ><c:out value="${info.title}"/></textarea>
+			</div>
+			<div class="form-group">
+  				<label>lat</label>
+  				<textarea class="form-control" name='lat' ><c:out value="${info.lat}"/></textarea>
+			</div>
+			<div class="form-group">
+  				<label>lng</label>
+  				<textarea class="form-control" name='lng' ><c:out value="${info.lng}"/></textarea>
+			</div>
+			<div class="form-group">
+  				<label>address</label>
+  				<textarea class="form-control" name='address' ><c:out value="${info.address}"/></textarea>
+			</div>
+			<div class="form-group">
+  				<label>address</label>
+  				<textarea class="form-control" name='infoscore' readonly><c:out value="${info.infoscore}" /></textarea>
+			</div> 	   	       
+   			<button type="submit" class="btn btn-default">화장실 수정</button>
+		</form>
+       	<form action="/board/infomore_remove" method="post">
+   			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>          
+   			<div class="form-group">
+       			<label></label> <input class="form-control" type="hidden" name='infoid' value="${info.id}">
+   			</div>
+   			<button type="submit" class="btn btn-default">화장실 삭제</button>
+		</form>
     </div>
-    <sec:authorize access="hasRole('ROLE_ADMIN')">
-    	<form action="<%= request.getContextPath() %>/board/infomore" method="get">
-    		<input type="hidden" name="infoid" value="${info.id}">
-        <button type="submit">수정</button>
-    </form>
-    </sec:authorize>
-   
+    
     <form action="<%= request.getContextPath() %>/board/list" method="get">
         <button type="submit">리스트로 돌아가기</button>
     </form>

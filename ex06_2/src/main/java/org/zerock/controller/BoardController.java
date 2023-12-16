@@ -73,7 +73,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/mapdb")
-	public String mapdb(Model model, Authentication authentication) {
+	public void mapdb(Model model, Authentication authentication) {
 	    List<InfoVO> infoList = service.getAllInfo();
 	    model.addAttribute("infoList", infoList);
 
@@ -82,22 +82,15 @@ public class BoardController {
 	        String auth = userservice.readauth(authentication.getName());
 	        model.addAttribute("auth", auth);
 	    }
-
-	    return "/board/mapdb";
 	}
 	
-    @PostMapping("/addInfo")
-    @ResponseBody
-    public String addInfo(@RequestBody InfoVO info) {
-        log.info("Add Info: " + info);
+    @PostMapping("/mapdb")
+    public String addInfo(@RequestParam("title") String title, @RequestParam("lat") Double lat, @RequestParam("lng") Double lng, @RequestParam("address") String address) {
+        log.info("Add Info: " + title+lat+lng+address);
+        
+        service.addInfo(title, lat, lng, address);
 
-        // 현재 시간 설정
-        info.setUpdateDate(new Date());
-        // infoscore는 이미 null로 설정되어 있음
-
-        service.addInfo(info);
-
-        return "success";
+        return "redirect:/board/map";
     }
 
 
@@ -126,6 +119,7 @@ public class BoardController {
 		log.info("userid-----------------------------"+userid);
 	    InfoVO info = service.getInfoById(id); // service 계층을 통해 데이터베이스에서 정보를 조회
  	    model.addAttribute("info", info);
+ 	    model.addAttribute("infoid", id);
  	    return "/board/info_board";
 	}
 	
@@ -152,6 +146,39 @@ public class BoardController {
 	    service.favorite_out(infoid, userid);
 	    
 	    return "redirect:/board/map";
+	}
+	
+	@GetMapping(value = "/infomore")
+	public void infomore(@RequestParam("infoid") Long infoid, Model model) {
+
+		log.info("infoid----------------------------" + infoid);
+	    InfoVO info = service.getInfoById(infoid);
+ 	    model.addAttribute("info", info);
+
+	}
+	
+	@PostMapping(value = "/infomore_modify")
+	public String infomodify(InfoVO info, Model model) {
+
+		log.info("title----------------------------" + info.getId());
+		service.modifyInfo(info);
+ 	    model.addAttribute("info", info);
+ 	    return "redirect:/board/map";
+	}
+	
+	@PostMapping(value = "/infomore_remove")
+	public String inforemove(Long infoid, Model model) {
+
+		log.info("id----------------------------" + infoid);
+		
+		List<BoardVO> boardlist = service.getListByInfoid(infoid);
+		if(boardlist != null) {
+			for(BoardVO board : boardlist) {
+				service.remove(board.getBno());
+			}
+		}
+		service.deleteInfo(infoid);
+ 	    return "redirect:/board/map";
 	}
 	
 	@GetMapping("/register")
