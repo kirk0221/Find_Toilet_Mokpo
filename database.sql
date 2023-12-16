@@ -139,3 +139,22 @@ CREATE TABLE tbl_favorite (
     infoid NUMBER,
     userid VARCHAR2(50)
 );
+
+-- infoid, score 열 추가
+ALTER TABLE tbl_board ADD infoid NUMBER;
+ALTER TABLE tbl_board ADD score NUMBER;
+ALTER TABLE info ADD infoscore NUMBER;
+
+-- 외래 키 제약 추가
+ALTER TABLE tbl_board
+ADD CONSTRAINT fk_tbl_board
+FOREIGN KEY (infoid)
+REFERENCES info(id);
+
+--replycnt, score, infoscore 기본값 변경
+ALTER TABLE TBL_BOARD
+MODIFY replycnt NUMBER(10, 0) DEFAULT 0;
+ALTER TABLE TBL_BOARD
+MODIFY score NUMBER(3, 1) DEFAULT 0;
+ALTER TABLE INFO
+MODIFY infoscore NUMBER(3, 1) DEFAULT 0;
