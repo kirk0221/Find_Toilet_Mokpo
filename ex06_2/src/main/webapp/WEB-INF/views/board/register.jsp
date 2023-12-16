@@ -84,8 +84,13 @@
             <label>Score(1~5)</label> <input class="form-control" name='score'>
           </div>
           <div class="form-group">
-            <label>화장실 정보</label> <input class="form-control" name='infotitle'>
-          </div>
+  			<label>화장실 정보</label>
+  				<select class="form-control" name="infotitle">
+  					<c:forEach var="info" items="${infoList}">
+     			  		<option value="${info.title}">${info.title}</option>
+    				</c:forEach>
+  				</select>
+		  </div>
 		<!-- 
           <div class="form-group">
             <label>Writer</label> <input class="form-control" name='writer'>

@@ -54,8 +54,13 @@
 </div>
 
 <div class="form-group">
-  <label>Infotitle</label>
-  <textarea class="form-control" name='infotitle' ><c:out value="${info.title}"/></textarea>
+    <label>화장실 정보</label>
+    <select class="form-control" name="infotitle">
+        <c:forEach var="info" items="${infoList}">
+            <option value="${info.title}">${info.title}</option>
+        </c:forEach>
+        <option value="${selectinfo.title}" selected>${selectinfo.title}</option>
+    </select>
 </div>
 
 <div class="form-group">
