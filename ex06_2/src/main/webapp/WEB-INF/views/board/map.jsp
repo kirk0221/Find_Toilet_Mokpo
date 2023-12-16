@@ -2,13 +2,22 @@
 <%@ page import="org.zerock.domain.InfoVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <%
     List<InfoVO> infoList = (List<InfoVO>) request.getAttribute("infoList");
+    String auth = (String) request.getAttribute("auth");
+    // Spring Security의 Principal 객체에서 username을 가져옴
+    String username = null;
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
+        username = ((org.springframework.security.core.userdetails.UserDetails) principal).getUsername();
+    }
 %>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>화장실 지도</title>
@@ -76,6 +85,31 @@
             text-overflow: ellipsis;
         }
 
+        #admin-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            background-color: white;
+            padding: 10px;
+            z-index: 999;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #admin-container button {
+            padding: 8px 15px;
+            border: 1px solid #007bff;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #admin-container button:hover {
+            background-color: #0056b3;
+        }
+
         #search-container {
             position: absolute;
             top: 0;
@@ -108,13 +142,14 @@
         #search-container button:hover {
             background-color: #0056b3;
         }
-
     </style>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0f56f2f450ad40dc6a620c5c8b79b642"></script>
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0f56f2f450ad40dc6a620c5c8b79b642"></script>
 </head>
+
 <body>
-	
-	<sec:authentication property="principal" var="pinfo" />
+
+    <sec:authentication property="principal" var="pinfo" />
     <script>
         var locPosition;
 
@@ -193,9 +228,15 @@
 
         function addMarkers(map, markers) {
             var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png";
-            
-            // JavaScript 변수에 사용자 아이디 할당
-            var username = "${pinfo.username}";
+
+            // username 변수를 전역 범위로 이동
+            var username = "<%= username %>";
+
+            // username이 빈 문자열이거나 null이면 초기화
+            if (!username || username.trim() === "") {
+                username = null;
+            }
+
             for (var i = 0; i < markers.length; i++) {
                 var imageSize = new kakao.maps.Size(36, 36);
                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -209,7 +250,7 @@
 
                 kakao.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
-                        window.location.href = '${pageContext.request.contextPath}/board/info_board?id=' + encodeURIComponent(markers[i].id)+'&userid='+username;
+                        window.location.href = '${pageContext.request.contextPath}/board/info_board?id=' + encodeURIComponent(markers[i].id) + '&userid=' + username;
                     };
                 })(marker, i));
             }
@@ -221,11 +262,11 @@
             var dLat = deg2rad(targetPosition.getLat() - locPosition.getLat());
             var dLon = deg2rad(targetPosition.getLng() - locPosition.getLng());
             var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                    Math.cos(deg2rad(locPosition.getLat())) * Math.cos(deg2rad(targetPosition.getLat())) *
-                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                Math.cos(deg2rad(locPosition.getLat())) * Math.cos(deg2rad(targetPosition.getLat())) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             var distance = R * c; // 단위를 킬로미터로 변환
-            
+
             return distance;
         }
 
@@ -310,19 +351,32 @@
             // 현재 위치와 각 위치의 거리 계산 및 업데이트
             updateDistances(locPosition);
         }
+        
+        // '등록' 버튼 클릭 시 동작하는 함수
+        function register() {
+            alert('등록 버튼이 클릭되었습니다.');
+            // 여기에 실제 동작을 추가하세요.
+        }
+
     </script>
 
     <!-- 검색 및 초기화 버튼을 추가한 부분 -->
     <div id="container">
-        <!-- 검색창 추가 -->
+        <!-- 검색창 및 버튼 추가 -->
         <div id="search-container">
             <input type="text" id="searchInput" placeholder="Search by title">
             <button onclick="searchTitles()">Search</button>
             <button onclick="resetTable()">Reset</button>
         </div>
+        <!-- 등록 버튼이 있는 admin-container 추가 -->
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+	        <div id="admin-container">
+	            <button onclick="register()">등록</button>
+	        </div>
+	    </sec:authorize>
         <div id="map"></div>
-        <div id="info-container">
-        </div>
+        <div id="info-container"></div>
     </div>
 </body>
+
 </html>

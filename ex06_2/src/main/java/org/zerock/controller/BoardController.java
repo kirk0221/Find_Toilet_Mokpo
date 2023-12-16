@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import org.zerock.domain.InfoVO;
 import org.zerock.domain.MemberVO;
 import org.zerock.domain.PageDTO;
 import org.zerock.service.BoardService;
+import org.zerock.service.MemberService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -37,6 +39,7 @@ import lombok.extern.log4j.Log4j;
 public class BoardController {
 
 	private BoardService service;
+	private MemberService userservice;
 	
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
@@ -54,9 +57,16 @@ public class BoardController {
 	}
 	
 	@GetMapping("/map")
-	public String map(Model model) {
-	    List<InfoVO> infoList = service.getAllInfo(); // getAllInfo()는 모든 InfoVO 객체를 가져오는 서비스 메서드
+	public String map(Model model, Authentication authentication) {
+	    List<InfoVO> infoList = service.getAllInfo();
 	    model.addAttribute("infoList", infoList);
+
+	    if (authentication != null) {
+	        // 현재 사용자의 인증 정보에서 권한을 가져와서 모델에 추가
+	        String auth = userservice.readauth(authentication.getName());
+	        model.addAttribute("auth", auth);
+	    }
+
 	    return "/board/map";
 	}
 
