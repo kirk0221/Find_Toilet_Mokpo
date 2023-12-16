@@ -29,11 +29,12 @@
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th>#번호</th>
+							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
 							<th>작성일</th>
 							<th>수정일</th>
+							<th>평점</th>
 						</tr>
 					</thead>
 
@@ -49,6 +50,7 @@
                   value="${board.regdate}" /></td>
               <td><fmt:formatDate pattern="yyyy-MM-dd"
                   value="${board.updateDate}" /></td>
+              <td><c:out value="${board.score}" /></td>
             </tr>
           </c:forEach>
 

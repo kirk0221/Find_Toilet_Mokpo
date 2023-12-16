@@ -26,11 +26,15 @@ public interface BoardService {
 	//추가
 	public int getTotal(Criteria cri);
 	
+	public int getTotalByInfoid(Long infoid);
+	public int getTotalScoreByInfoid(Long infoid);
+	
 	public List<BoardAttachVO> getAttachList(Long bno);
 	
 	public void removeAttach(Long bno);
 
 	public InfoVO getInfoById(Long id);
+	public InfoVO getInfoByTitle(String title);
 
 	public List<InfoVO> getAllInfo();
 	

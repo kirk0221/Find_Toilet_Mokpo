@@ -34,7 +34,10 @@ public class BoardServiceImpl implements BoardService {
 		log.info("register......" + board);
 
 		mapper.insertSelectKey(board);
-
+		Double total = (double) mapper.getTotalCountByInfoid(board.getInfoid());
+		Double totalscore = (double) mapper.getTotalScoreByInfoid(board.getInfoid());
+		Double infoscore = (Double) (totalscore/total);
+		mapper.updateInfoscore(infoscore, board.getInfoid());
 		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {
 			return;
 		}
@@ -73,7 +76,10 @@ public class BoardServiceImpl implements BoardService {
 				attachMapper.insert(attach);
 			});
 		}
-
+		Double total = (double) mapper.getTotalCountByInfoid(board.getInfoid());
+		Double totalscore = (double) mapper.getTotalScoreByInfoid(board.getInfoid());
+		Double infoscore = (Double) (totalscore/total);
+		mapper.updateInfoscore(infoscore, board.getInfoid());
 		return modifyResult;
 	}
 
@@ -98,10 +104,20 @@ public class BoardServiceImpl implements BoardService {
 	public boolean remove(Long bno) {
 
 		log.info("remove...." + bno);
-
+		BoardVO board = mapper.read(bno);
 		attachMapper.deleteAll(bno);
-
-		return mapper.delete(bno) == 1;
+		boolean result = mapper.delete(bno) == 1;
+		Double total = (double) mapper.getTotalCountByInfoid(board.getInfoid());
+		Double infoscore = 0.0;
+		if(total > 0) {
+			total = (double) mapper.getTotalCountByInfoid(board.getInfoid());
+			Double totalscore = (double) mapper.getTotalScoreByInfoid(board.getInfoid());
+			infoscore = (Double) (totalscore/total);
+			mapper.updateInfoscore(infoscore, board.getInfoid());
+			return result;
+		}
+		mapper.updateInfoscore(infoscore, board.getInfoid());
+		return result;
 	}
 
 	// @Override
@@ -128,6 +144,21 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public int getTotalByInfoid(Long infoid) {
+
+		log.info("get total count by infoid");
+		return mapper.getTotalCountByInfoid(infoid);
+	}
+
+	@Override
+	public int getTotalScoreByInfoid(Long infoid) {
+
+		log.info("get total count by infoid");
+		return mapper.getTotalScoreByInfoid(infoid);
+	}
+
+	
+	@Override
 	public List<BoardAttachVO> getAttachList(Long bno) {
 
 		log.info("get Attach list by bno" + bno);
@@ -153,6 +184,12 @@ public class BoardServiceImpl implements BoardService {
 		log.info("get info by id :" + id);
 		
 		return mapper.getInfoById(id);
+	}
+	
+	public InfoVO getInfoByTitle(String title) {
+		log.info("get info by title :" + title);
+		
+		return mapper.getInfoByTitle(title);
 	}
 	
 	public MemberVO getMemberById(String userid) {

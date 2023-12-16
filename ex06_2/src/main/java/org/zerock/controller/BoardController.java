@@ -122,10 +122,10 @@ public class BoardController {
 
 	@PostMapping("/register")
 	@PreAuthorize("isAuthenticated()")
-	public String register(BoardVO board, RedirectAttributes rttr) {
+	public String register(BoardVO board, String infotitle, RedirectAttributes rttr) {
 
 		log.info("==========================");
-
+		board.setInfoid(service.getInfoByTitle(infotitle).getId() );
 		log.info("register: " + board);
 
 		if (board.getAttachList() != null) {
@@ -138,9 +138,11 @@ public class BoardController {
 			return "redirect:/board/register";
 		}
 		log.info("==========================");
-		
 		service.register(board);
-
+		log.info("---------------------"+service.getTotalByInfoid(board.getInfoid()));
+		log.info("---------------------"+service.getTotalScoreByInfoid(board.getInfoid()));
+		
+		
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:/board/list";
 	}
@@ -150,26 +152,27 @@ public class BoardController {
 
 		log.info("/get or modify");
 		model.addAttribute("board", service.get(bno));
+		model.addAttribute("info", service.getInfoById(service.get(bno).getInfoid()));
+		
 	}
-
+	
 	@PreAuthorize("principal.username == #board.writer")
 	@PostMapping("/modify")
-	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+	public String modify(BoardVO board, Criteria cri, String infotitle, RedirectAttributes rttr) {
 		log.info("modify:" + board);
-
+		board.setInfoid(service.getInfoByTitle(infotitle).getId());
 		if (service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-
+		
 		return "redirect:/board/list" + cri.getListLink();
 	}
 	
 	@PreAuthorize("principal.username == #writer")
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr, String writer) {
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, String infotitle, RedirectAttributes rttr, String writer) {
 
 		log.info("remove..." + bno);
-
 		List<BoardAttachVO> attachList = service.getAttachList(bno);
 
 		if (service.remove(bno)) {

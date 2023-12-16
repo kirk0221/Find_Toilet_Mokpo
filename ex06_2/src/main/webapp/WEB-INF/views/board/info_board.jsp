@@ -88,6 +88,7 @@
         </sec:authorize>
 		
         <p>Title: ${info.title}</p>
+        <p>Score: ${info.infoscore}</p>
         <p>Address: ${info.address}</p>
     </div>
     

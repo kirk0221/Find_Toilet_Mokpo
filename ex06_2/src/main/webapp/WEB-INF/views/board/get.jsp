@@ -44,6 +44,14 @@
           <label>Writer</label> <input class="form-control" name='writer'
             value='<c:out value="${board.writer }"/>' readonly="readonly">
         </div>
+        <div class="form-group">
+          <label>Score</label> <input class="form-control" name='score'
+            value='<c:out value="${board.score}"/>' readonly="readonly">
+        </div>
+        <div class="form-group">
+          <label>화장실 정보</label> <input class="form-control" name='infotitle'
+            value='<c:out value="${info.title}"/>' readonly="readonly">
+        </div>
 
 <%-- 		<button data-oper='modify' class="btn btn-default">
         <a href="/board/modify?bno=<c:out value="${board.bno}"/>">Modify</a></button>

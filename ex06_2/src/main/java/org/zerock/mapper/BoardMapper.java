@@ -27,12 +27,17 @@ public interface BoardMapper {
 	public int update(BoardVO board);
 
 	public int getTotalCount(Criteria cri);
+	public int getTotalCountByInfoid(@Param("infoid") Long infoid);
+	
+	public int getTotalScoreByInfoid(@Param("infoid") Long infoid);
 
 	public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
+	public void updateInfoscore(@Param("infoscore") Double infoscore, @Param("infoid") Long infoid);
 	
 	public List<BoardAttachVO> findByBno(Long bno);
 
 	public InfoVO getInfoById(Long id);
+	public InfoVO getInfoByTitle(String title);
 
 	public List<InfoVO> getAllInfo();
 	

@@ -80,6 +80,12 @@
             <label>Text area</label>
             <textarea class="form-control" rows="3" name='content'></textarea>
           </div>
+          <div class="form-group">
+            <label>Score(1~5)</label> <input class="form-control" name='score'>
+          </div>
+          <div class="form-group">
+            <label>화장실 정보</label> <input class="form-control" name='infotitle'>
+          </div>
 		<!-- 
           <div class="form-group">
             <label>Writer</label> <input class="form-control" name='writer'>

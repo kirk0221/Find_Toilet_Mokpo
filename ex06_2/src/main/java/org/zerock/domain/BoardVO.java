@@ -12,9 +12,11 @@ public class BoardVO {
 	private String title;
 	private String content;
 	private String writer;
+	private Long score;
 	private Date regdate;
 	private Date updateDate;
-
+	private Long infoid;
+	
 	private int replyCnt;
 
 	private List<BoardAttachVO> attachList;

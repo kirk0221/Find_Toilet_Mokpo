@@ -49,6 +49,16 @@
 </div>
 
 <div class="form-group">
+  <label>Score(1~5)</label>
+  <textarea class="form-control" name='score' ><c:out value="${board.score}"/></textarea>
+</div>
+
+<div class="form-group">
+  <label>Infotitle</label>
+  <textarea class="form-control" name='infotitle' ><c:out value="${info.title}"/></textarea>
+</div>
+
+<div class="form-group">
   <label>Writer</label> 
   <input class="form-control" name='writer'
     value='<c:out value="${board.writer}"/>' readonly="readonly">            

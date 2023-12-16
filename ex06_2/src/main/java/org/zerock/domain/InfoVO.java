@@ -12,4 +12,5 @@ public class InfoVO {
 	private Double lng;
 	private String address;
 	private Date updateDate;
+	private Double infoscore;
 }
